@@ -230,16 +230,13 @@ def create_drawable_empty(name: str, drawable_xml: Drawable):
 
 
 def shadergroup_to_materials(shader_group: ShaderGroup, filepath: str):
-    # Fallback: falls kein <shaderGroup>-Tag gefunden wurde
-    if shader_group is None:
-        default_mat = bpy.data.materials.new(name="DefaultMaterial")
-        return [default_mat]
-
     materials = []
+
     for i, shader in enumerate(shader_group.shaders):
         material = shader_item_to_material(shader, shader_group, filepath)
         material.shader_properties.index = i
         materials.append(material)
+
     return materials
 
 
