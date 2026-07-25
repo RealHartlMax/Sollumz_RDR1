@@ -323,12 +323,9 @@ def unregister():
     del bpy.types.Material.shader_properties
     del bpy.types.ShaderNodeTexImage.texture_properties
     del bpy.types.Bone.bone_properties
-    del bpy.types.Light.light_properties
     del bpy.types.Scene.create_light_type
     del bpy.types.Light.time_flags
-    del bpy.types.Light.light_flags
     del bpy.types.Light.is_capsule
-    del bpy.types.Scene.light_presets
     del bpy.types.Scene.light_preset_index
     del bpy.types.Scene.create_seperate_drawables
     del bpy.types.Scene.auto_create_embedded_col

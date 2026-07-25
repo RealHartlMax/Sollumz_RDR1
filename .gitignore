@@ -12,3 +12,4 @@ vsdevelopment.code-workspace
 .idea
 test_performance.py
 *.prof
+AGENTS.md

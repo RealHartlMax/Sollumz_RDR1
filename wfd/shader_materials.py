@@ -530,6 +530,17 @@ def link_value_shader_parameters(b: ShaderBuilder):
         if em:
             links.new(em_m.outputs["X"], em.inputs[1])
 
+def get_or_create_uv_map_node(node_tree, index: int):
+    """Return the ``ShaderNodeUVMap`` node for ``index``, creating it if absent."""
+    name = get_uv_map_name(index)
+    node = node_tree.nodes.get(name)
+    if node is None:
+        node = node_tree.nodes.new("ShaderNodeUVMap")
+        node.name = name
+        node.label = name
+        node.uv_map = name
+    return node
+
 def create_uv_map_nodes(b: ShaderBuilder):
     """Creates a ``ShaderNodeUVMap`` node for each UV map used in the shader."""
     shader = b.shader
@@ -653,7 +664,7 @@ def link_rdr1_diffuses_2(b: ShaderBuilder, c0, c1):
     bsdf = b.bsdf
     links = node_tree.links
 
-    tc1 = node_tree.nodes[get_uv_map_name(1)]
+    tc1 = get_or_create_uv_map_node(node_tree, 1)
     links.new(tc1.outputs["UV"], c1.inputs[0])
 
     # Lerp: lerp(c0, c1, c1.a)
@@ -676,8 +687,8 @@ def link_rdr1_diffuses_3(b: ShaderBuilder, c0, c1, c2):
     bsdf = b.bsdf
     links = node_tree.links
 
-    tc1 = node_tree.nodes[get_uv_map_name(1)]
-    tc2 = node_tree.nodes[get_uv_map_name(2)]
+    tc1 = get_or_create_uv_map_node(node_tree, 1)
+    tc2 = get_or_create_uv_map_node(node_tree, 2)
 
     links.new(tc1.outputs["UV"], c1.inputs[0])
     links.new(tc2.outputs["UV"], c2.inputs[0])
@@ -745,7 +756,7 @@ def create_shader(filename: str):
     mat.shader_properties.filename = filename
 
     if isinstance(shader.render_bucket, int):
-        bucket_str = bucket_mapping.get(RenderBucket(shader.render_bucket), "OPAQUE")
+        bucket_str = bucket_mapping.get(shader.render_bucket, "OPAQUE")
         mat.shader_properties.renderbucket = bucket_str
     else:
         mat.shader_properties.renderbucket = shader.render_bucket[0]
