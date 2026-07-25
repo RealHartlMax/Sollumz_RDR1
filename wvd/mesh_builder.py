@@ -65,6 +65,12 @@ class MeshBuilder:
             np.max(drawable_mat_inds) + 1, dtype=np.uint32)
 
         for mat_ind in drawable_mat_inds:
+            # Skip material indices that are out of range
+            if mat_ind >= len(self.materials):
+                logger.warning(
+                    f"Material index {mat_ind} is out of range for mesh '{self.name}'. "
+                    f"Available materials: {len(self.materials)}. Skipping.")
+                continue
             mesh.materials.append(self.materials[mat_ind])
             model_mat_inds[mat_ind] = len(mesh.materials) - 1
 
