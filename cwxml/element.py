@@ -86,6 +86,11 @@ class Element(AbstractClass):
     @classmethod
     def from_xml_file(cls, filepath):
         """Read XML from filepath"""
+        from pathlib import Path
+        
+        if not Path(filepath).exists():
+            raise FileNotFoundError(f"XML file not found: {filepath}")
+        
         element_tree = ET.ElementTree()
         element_tree.parse(filepath)
         return cls.from_xml(element_tree.getroot())

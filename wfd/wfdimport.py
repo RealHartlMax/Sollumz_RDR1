@@ -272,7 +272,7 @@ def shader_item_to_material(shader: Shader, shader_group: ShaderGroup, filepath:
                             material.name = param.texture_name
 
                     # Assign embedded texture dictionary properties
-                    texture_dictionary = shader_group.texture_dictionary.textures
+                    texture_dictionary = shader_group.texture_dictionary and shader_group.texture_dictionary.textures
                     if texture_dictionary is not None:
                         for texture in texture_dictionary:
                             if texture.name == param.texture_name:
